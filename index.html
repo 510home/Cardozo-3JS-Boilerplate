@@ -21,5 +21,19 @@
       }
     </script>
     <script type="module" src="main.js"></script>
+
+    var geometry = new THREE.IcosahedronGeometry(2,1);
+    var barmaterial = new THREE.MeshStandardMaterial({ color: "#444",
+    transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+
+    var alphaMap = new THREE.TextureLoader().load('alpha.png');
+    barmaterial.alphaMap = alphaMap;
+    barmaterial.alphaMap.magFilter = THREE.NearestFilter;
+    barmaterial.alphaMap.wrapT = THREE.RepeatWrapping;
+    barmaterial.alphaMap.repeat.y = 1;
+
+    var mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    
   </body>
 </html>
