@@ -109,6 +109,25 @@ function applyWASD() {
 const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
 
+//------ Sphere animated texture  ---------
+
+    var geometry = new THREE.IcosahedronGeometry(2,1);
+    var barmaterial = new THREE.MeshStandardMaterial({ color: "#444",
+    transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+
+//'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled.glb',
+    
+    var alphaMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.png');
+    barmaterial.alphaMap = alphaMap;
+    barmaterial.alphaMap.magFilter = THREE.NearestFilter;
+    barmaterial.alphaMap.wrapT = THREE.RepeatWrapping;
+    barmaterial.alphaMap.repeat.y = 1;
+
+    var mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    
+
+//------------------------------------------------
 // ─── Lighting ────────────────────────────────────────────────────────────────
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
