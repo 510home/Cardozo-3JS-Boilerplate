@@ -212,7 +212,15 @@ function animate() {
 
   // Gentle sphere rotation so alpha texture is visible
   sphere.rotation.z = t * 0.75;
+// sphere texture alpha animation
+const ALPHA_SCROLL_SPEED = 0.4;
+  
+    if (sphereMat.alphaMap) {
+    sphereMat.alphaMap.offset.y = (t * ALPHA_SCROLL_SPEED) % 1;
+    offsetLabel.textContent = sphereMat.alphaMap.offset.y.toFixed(3);
+  }
 
+  
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
   spot1.position.z = Math.cos(t * 0.18) * 4;
