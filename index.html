@@ -211,7 +211,7 @@ function animate() {
   const t = clock.getElapsedTime();
 
   // Gentle sphere rotation so alpha texture is visible
-  sphere.rotation.x = t * 0.25;
+  sphere.rotation.z = t * 0.75;
 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
