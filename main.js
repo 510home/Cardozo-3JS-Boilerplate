@@ -12,7 +12,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 // ─── Scene ───────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a2e);
+scene.background = new THREE.Color(0xa1d2b8);
 scene.fog = new THREE.Fog(0x1a1a2e, 20, 60);
 
 // ─── Camera ──────────────────────────────────────────────────────────────────
