@@ -190,7 +190,7 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
 
 // Spotlight 2 — cool fill/rim from right rear
-const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
+const spot2 = makeSpot(0xeeef77, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
 
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
@@ -211,7 +211,7 @@ function animate() {
   const t = clock.getElapsedTime();
 
   // Gentle sphere rotation so alpha texture is visible
-  sphere.rotation.y = t * 0.25;
+  sphere.rotation.x = t * 0.05;
 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
