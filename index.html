@@ -155,11 +155,11 @@ const sphereMat = new THREE.MeshStandardMaterial({
   transparent: true,
   side: THREE.DoubleSide,
   alphaTest: 0.5,
-  roughness: 0.3,
+  roughness: 0.6,
   metalness: 0.15
 });
 
-const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+const sphereGeo = new THREE.SphereGeometry(1, 24, 24);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
 sphere.position.set(0, SPHERE_Y, 0);
 sphere.castShadow    = true;
@@ -213,7 +213,7 @@ function animate() {
 
   // Gentle sphere rotation
   sphere.rotation.x = t * 0.05;
-  
+/*  
 // sphere texture alpha animation
 // Scroll speed for the alpha texture Y offset (UV units per second)
 const ALPHA_SCROLL_SPEED = 0.75;
@@ -223,7 +223,7 @@ const ALPHA_SCROLL_SPEED = 0.75;
     offsetLabel.textContent = sphereMat.alphaMap.offset.y.toFixed(3);
   }
 // ────────────────────────────────────────────────────────────────────
-  
+ */ 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
   spot1.position.z = Math.cos(t * 0.18) * 4;
