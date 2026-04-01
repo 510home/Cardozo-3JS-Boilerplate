@@ -108,14 +108,14 @@ function applyWASD() {
 // ─── Loaders ─────────────────────────────────────────────────────────────────
 const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
-const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
+/*const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
     barmaterial.alphaMap01 = alphaMap01;
     barmaterial.alphaMap01.magFilter = THREE.NearestFilter;
     barmaterial.alphaMap01.wrapT = THREE.RepeatWrapping;
     barmaterial.alphaMap01.repeat.y = 1;
 
 //------ Sphere animated texture  ---------
-/*
+
     const ball = new THREE.SphereGeometry( 1, 1, 1);
     const barmaterial = new THREE.MeshStandardMaterial({ color: "#444", transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
 
