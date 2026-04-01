@@ -116,7 +116,7 @@ const gltfLoader = new GLTFLoader();
 
 //------ Sphere animated texture  ---------
 */
-    const ball = new THREE.SphereGeometry( new Vector3(4,4,4), 2);
+    const ball = new THREE.SphereGeometry( (0,1,0), 2);
     const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
 
     const sphere = new THREE.Mesh(ball, barmaterial);
