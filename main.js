@@ -121,9 +121,12 @@ const gltfLoader = new GLTFLoader();
 
 // 2. Create a material
     const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
+
 // 3. Create the mesh and add it to your scene
     const sphere = new THREE.Mesh(ball, barmaterial);
     sphere.position.set(0, 1, -0.75);
+    sphere.castShadow = true;
+    sphere.receiveShadow = true;
     scene.add(sphere);
     
 
