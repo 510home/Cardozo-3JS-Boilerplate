@@ -113,7 +113,7 @@ const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6", transpare
 
 const gltfLoader = new GLTFLoader();
 
-const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/tree/texture-test/textures/bars.jpg');
+const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg');
 
 
 //------ Sphere animated texture  ---------
