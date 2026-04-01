@@ -108,22 +108,19 @@ function applyWASD() {
 // ─── Loaders ─────────────────────────────────────────────────────────────────
 const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
+const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.png');
+    barmaterial.alphaMap01 = alphaMap;
+    barmaterial.alphaMap01.magFilter = THREE.NearestFilter;
+    barmaterial.alphaMap01.wrapT = THREE.RepeatWrapping;
+    barmaterial.alphaMap01.repeat.y = 1;
 
 //------ Sphere animated texture  ---------
 
-    var geometry = new THREE.IcosahedronGeometry(2,1);
-    var barmaterial = new THREE.MeshStandardMaterial({ color: "#444",
+    const ball = new THREE.IcosahedronGeometry(2,1);
+    const barmaterial = new THREE.MeshStandardMaterial({ color: "#444",
     transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
 
-//'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled.glb',
-    
-    var alphaMap = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.png');
-    barmaterial.alphaMap = alphaMap;
-    barmaterial.alphaMap.magFilter = THREE.NearestFilter;
-    barmaterial.alphaMap.wrapT = THREE.RepeatWrapping;
-    barmaterial.alphaMap.repeat.y = 1;
-
-    var mesh = new THREE.Mesh(geometry, material);
+    const sphere = new THREE.Mesh(ball, barmaterial);
     scene.add(mesh);
     
 
