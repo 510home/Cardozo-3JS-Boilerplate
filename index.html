@@ -161,7 +161,7 @@ const sphereMat = new THREE.MeshStandardMaterial({
 
 const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
-sphere.position.set(0, SPHERE_Y, 0);
+sphere.position.set(0, .25, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
@@ -212,6 +212,7 @@ function animate() {
 
   // Gentle sphere rotation so alpha texture is visible
   sphere.rotation.x = t * 0.002;
+  sphere.sphereMat.alphaMap.offset.y = t * 0.2;
 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
