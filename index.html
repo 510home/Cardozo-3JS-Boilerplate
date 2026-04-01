@@ -165,6 +165,7 @@ sphere.position.set(0, .25, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
+return sphere;
 
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
@@ -211,7 +212,7 @@ function animate() {
   const t = clock.getElapsedTime();
 
   // Gentle sphere rotation so alpha texture is visible
-  sphere.rotation.x = t * 0.002;
+//  sphere.rotation.x = t * 0.002;
 //  sphere.sphereMat.alphaMap.offset.y = t * 0.5;
 
   // Subtle spotlight orbit for drama
@@ -219,7 +220,7 @@ function animate() {
   spot1.position.z = Math.cos(t * 0.18) * 4;
 
   controls.update();
-  renderer.clear();
+//  renderer.clear();
   renderer.render(scene, camera);
 }
 animate();
