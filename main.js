@@ -115,14 +115,14 @@ const gltfLoader = new GLTFLoader();
     barmaterial.alphaMap01.repeat.y = 1;
 
 //------ Sphere animated texture  ---------
-
+*/
     const ball = new THREE.SphereGeometry( 1, 1, 1);
-    const barmaterial = new THREE.MeshStandardMaterial({ color: "#444", transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+    const barmaterial = new THREE.MeshStandardMaterial({ color: "#444", transparent: false, side: THREE.DoubleSide, alphaTest: 0.5 });
 
     const sphere = new THREE.Mesh(ball, barmaterial);
     scene.add(sphere);
-    sphere..position.set(0, 1, -0.5);
-*/
+    sphere.position.set(0, 1, -0.5);
+
 //------------------------------------------------
 // ─── Lighting ────────────────────────────────────────────────────────────────
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
