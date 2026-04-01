@@ -108,8 +108,8 @@ function applyWASD() {
 // ─── Loaders ─────────────────────────────────────────────────────────────────
 const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
-const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.png');
-    barmaterial.alphaMap01 = alphaMap;
+const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
+    barmaterial.alphaMap01 = alphaMap01;
     barmaterial.alphaMap01.magFilter = THREE.NearestFilter;
     barmaterial.alphaMap01.wrapT = THREE.RepeatWrapping;
     barmaterial.alphaMap01.repeat.y = 1;
