@@ -138,10 +138,10 @@ textureLoader.load(
     // Apply texture settings
     alphaTex.magFilter  = THREE.NearestFilter;
     alphaTex.wrapT      = THREE.RepeatWrapping;
-    alphaTex.repeat.y   = 1;
-    alphaTex.needsUpdate = false;
+    alphaMap.repeat.y   = 1;
+    alphaTex.needsUpdate = true;
     sphereMat.alphaMap  = alphaTex;
-    sphereMat.needsUpdate = false;
+    sphereMat.needsUpdate = true;
     console.log('Alpha texture loaded ✓');
   },
   undefined,
@@ -212,7 +212,7 @@ function animate() {
 
   // Gentle sphere rotation so alpha texture is visible
   sphere.rotation.x = t * 0.002;
-  sphere.sphereMat.alphaMap.offset.y = t * 0.5;
+//  sphere.sphereMat.alphaMap.offset.y = t * 0.5;
 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
