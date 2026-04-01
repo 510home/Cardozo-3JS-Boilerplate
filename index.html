@@ -1,26 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Three.js Boilerplate Scene</title>
-    <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { overflow: hidden; background: #1a1a2e; }
-      #canvas { display: block; width: 100vw; height: 100vh; }
-    </style>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
-        }
-      }
-    </script>
-    <script type="module" src="main.js"></script>
- 
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Three.js Sphere Scene</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0f; overflow: hidden; font-family: 'Courier New', monospace; }
+    canvas { display: block; }
+
+    #ui {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: #ce15f6;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.8;
+      pointer-events: none;
+      text-shadow: 0 0 10px #ce15f680;
+    }
+    #ui .label { color: #ffffff55; }
+    #ui .val   { color: #ce15f6; }
+
+    #corner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      color: #ffffff22;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<div id="ui">
+  <div><span class="label">Sphere radius: </span><span class="val">1 m</span></div>
+  <div><span class="label">Sphere height: </span><span class="val">+1/7 m above plane</span></div>
+  <div><span class="label">Plane:         </span><span class="val">5 m × 8 m</span></div>
+  <div><span class="label">Lighting:      </span><span class="val">2× Spotlights (no ambient)</span></div>
+  <div><span class="label">Material:      </span><span class="val">SphereMat — alpha texture</span></div>
+</div>
+
+<div id="corner">Orbit · Scroll to zoom · Right-drag to pan</div>
+
+<!-- Three.js r128 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<!-- OrbitControls (r128-compatible CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+// ─────────────────────────────────────────────
+//  RENDERER
+// ─────────────────────────────────────────────
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+document.body.appendChild(renderer.domElement);
+
+// ─────────────────────────────────────────────
+//  SCENE & CAMERA
+// ─────────────────────────────────────────────
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a0f);
+
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 200);
+camera.position.set(4, 3.5, 6);
+camera.lookAt(0, 0.5, 0);
+
+// ─────────────────────────────────────────────
+//  ORBIT CONTROLS
+// ─────────────────────────────────────────────
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.06;
+controls.minDistance = 1.5;
+controls.maxDistance = 30;
+controls.target.set(0, 0.5, 0);
+controls.update();
+
+// ─────────────────────────────────────────────
+//  RED PLANE  (5 m wide × 8 m deep)
+// ─────────────────────────────────────────────
+const planeGeo = new THREE.PlaneGeometry(5, 8);
+const planeMat = new THREE.MeshStandardMaterial({
+  color: 0xff1a1a,
+  roughness: 0.75,
+  metalness: 0.05,
+  side: THREE.DoubleSide
+});
+const plane = new THREE.Mesh(planeGeo, planeMat);
+plane.rotation.x = -Math.PI / 2;
+plane.receiveShadow = true;
+scene.add(plane);
+
+// ─────────────────────────────────────────────
+//  GRID HELPER  (matches plane: 5×8, 1 m cells)
+// ─────────────────────────────────────────────
+// GridHelper(size, divisions) — we'll approximate with the larger dim
+// Use a 8×8 grid then clip visually via the plane; common practice
+const grid = new THREE.GridHelper(8, 8, 0xffffff, 0xffffff);
+grid.position.y = 0.001;                 // sit just above plane to avoid z-fight
+grid.material.opacity = 0.18;
+grid.material.transparent = true;
+scene.add(grid);
+
+// A second, finer grid just over the 5m axis
+const gridSmall = new THREE.GridHelper(5, 5, 0xce15f6, 0xce15f6);
+gridSmall.position.y = 0.002;
+gridSmall.material.opacity = 0.22;
+gridSmall.material.transparent = true;
+scene.add(gridSmall);
+
+// ─────────────────────────────────────────────
+//  SPHERE  (r = 1 m, y = 1 + 1/7)
+// ─────────────────────────────────────────────
+const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
+
+// Load alpha texture
+const textureLoader = new THREE.TextureLoader();
+// NOTE: The supplied URL points to a GitHub tree page (not raw content).
+// We use the correct raw URL pattern instead:
+const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
+
+textureLoader.load(
+  alphaTexURL,
+  (alphaTex) => {
+    // Apply texture settings
+    alphaTex.magFilter  = THREE.NearestFilter;
+    alphaTex.wrapT      = THREE.RepeatWrapping;
+    alphaTex.repeat.y   = 1;
+    alphaTex.needsUpdate = true;
+    sphereMat.alphaMap  = alphaTex;
+    sphereMat.needsUpdate = true;
+    console.log('Alpha texture loaded ✓');
+  },
+  undefined,
+  (err) => {
+    console.warn('Alpha texture failed to load (CORS / 404). Sphere will render without alpha map.', err);
+  }
+);
+
+const sphereMat = new THREE.MeshStandardMaterial({
+  color: "#ce15f6",
+  transparent: true,
+  side: THREE.DoubleSide,
+  alphaTest: 0.5,
+  roughness: 0.3,
+  metalness: 0.15
+});
+
+const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
+const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
+sphere.position.set(0, SPHERE_Y, 0);
+sphere.castShadow    = true;
+sphere.receiveShadow = false;
+scene.add(sphere);
+
+// ─────────────────────────────────────────────
+//  SPOTLIGHTS  (no ambient — only 2 spots)
+// ─────────────────────────────────────────────
+function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
+  const spot = new THREE.SpotLight(color, intensity);
+  spot.position.set(posX, posY, posZ);
+  spot.angle     = angle;
+  spot.penumbra  = penumbra;
+  spot.decay     = 1.8;
+  spot.distance  = 20;
+  spot.castShadow = true;
+  spot.shadow.mapSize.set(1024, 1024);
+  spot.shadow.camera.near = 0.5;
+  spot.shadow.camera.far  = 20;
+  spot.target.position.set(0, SPHERE_Y, 0);
+  scene.add(spot);
+  scene.add(spot.target);
+  return spot;
+}
+
+// Spotlight 1 — warm key light from upper-left front
+const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
+
+// Spotlight 2 — cool fill/rim from right rear
+const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
+
+// ─────────────────────────────────────────────
+//  RESIZE HANDLER
+// ─────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ─────────────────────────────────────────────
+//  ANIMATE
+// ─────────────────────────────────────────────
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  // Gentle sphere rotation so alpha texture is visible
+  sphere.rotation.y = t * 0.25;
+
+  // Subtle spotlight orbit for drama
+  spot1.position.x = Math.sin(t * 0.18) * 4;
+  spot1.position.z = Math.cos(t * 0.18) * 4;
+
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
 </html>
