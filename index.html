@@ -130,7 +130,7 @@ const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
 const textureLoader = new THREE.TextureLoader();
 // NOTE: The supplied URL points to a GitHub tree page (not raw content).
 // We use the correct raw URL pattern instead:
-const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
+const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
 
 textureLoader.load(
   alphaTexURL,
@@ -151,10 +151,10 @@ textureLoader.load(
 );
 
 const sphereMat = new THREE.MeshStandardMaterial({
-  color: "#ce15f6",
-  transparent: true,
-  side: THREE.DoubleSide,
-  alphaTest: 0.5,
+ map: color: "#ce15f6",
+ // transparent: true,
+//  side: THREE.DoubleSide,
+//  alphaTest: 0.5,
   roughness: 0.6,
   metalness: 0.15
 });
@@ -213,14 +213,16 @@ function animate() {
 
   // Gentle sphere rotation
   sphere.rotation.x = t * 0.002;
+  alphaTex.offset.y += .05
 
 // sphere texture alpha animation
 // Scroll speed for the alpha texture Y offset (UV units per second)
 //const ALPHA_SCROLL_SPEED = 3;
-  
+/*  
     if (sphereMat.alphaMap) {
     sphere.sphereMat.alphaMap.offset.y = t * 2
     offsetLabel.textContent = sphereMat.alphaMap.offset.y.toFixed(3);
+    */
   }
 // ────────────────────────────────────────────────────────────────────
  
