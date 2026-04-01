@@ -13,11 +13,11 @@
       position: fixed;
       top: 20px;
       left: 20px;
-      color: #77efaf;
+      color: #ce15f6;
       font-size: 11px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      line-height: 2;
+      line-height: 1.8;
       pointer-events: none;
       text-shadow: 0 0 10px #ce15f680;
     }
@@ -128,6 +128,8 @@ const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
 
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
+// NOTE: The supplied URL points to a GitHub tree page (not raw content).
+// We use the correct raw URL pattern instead:
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
 
 textureLoader.load(
@@ -137,9 +139,9 @@ textureLoader.load(
     alphaTex.magFilter  = THREE.NearestFilter;
     alphaTex.wrapT      = THREE.RepeatWrapping;
     alphaTex.repeat.y   = 1;
-   // alphaTex.needsUpdate = true;
+    alphaTex.needsUpdate = true;
     sphereMat.alphaMap  = alphaTex;
- //   sphereMat.needsUpdate = true;
+    sphereMat.needsUpdate = true;
     console.log('Alpha texture loaded ✓');
   },
   undefined,
@@ -149,17 +151,17 @@ textureLoader.load(
 );
 
 const sphereMat = new THREE.MeshStandardMaterial({
- map: color: "#ce15f6",
- // transparent: true,
-//  side: THREE.DoubleSide,
-//  alphaTest: 0.5,
-  roughness: 0.6,
+  color: "#ce15f6",
+  transparent: true,
+  side: THREE.DoubleSide,
+  alphaTest: 0.5,
+  roughness: 0.3,
   metalness: 0.15
 });
 
-const sphereGeo = new THREE.SphereGeometry(1, 24, 24);
+const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
-sphere.position.set(0, .25, 0);
+sphere.position.set(0, SPHERE_Y, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
@@ -188,7 +190,7 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
 
 // Spotlight 2 — cool fill/rim from right rear
-const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3, Math.PI / 12, 0.45);
+const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
 
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
@@ -203,27 +205,14 @@ window.addEventListener('resize', () => {
 //  ANIMATE
 // ─────────────────────────────────────────────
 const clock = new THREE.Clock();
-//const offsetLabel = document.getElementById('offsetVal');
 
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
 
-  // Gentle sphere rotation
-  sphere.rotation.x = t * 0.002;
-//  sphere.sphereMat.alphaTex.offset.y = t * .4;
+  // Gentle sphere rotation so alpha texture is visible
+  sphere.rotation.y = t * 0.25;
 
-// sphere texture alpha animation
-// Scroll speed for the alpha texture Y offset (UV units per second)
-//const ALPHA_SCROLL_SPEED = 3;
-/*  
-    if (sphereMat.alphaMap) {
-    sphere.sphereMat.alphaMap.offset.y = t * 2
-    offsetLabel.textContent = sphereMat.alphaMap.offset.y.toFixed(3);
-    */
-  }
-// ────────────────────────────────────────────────────────────────────
- 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
   spot1.position.z = Math.cos(t * 0.18) * 4;
