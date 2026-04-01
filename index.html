@@ -218,9 +218,11 @@ function animate() {
   spot1.position.z = Math.cos(t * 0.18) * 4;
 
   controls.update();
+  renderer.clear();
   renderer.render(scene, camera);
 }
 animate();
+
 </script>
 </body>
 </html>
