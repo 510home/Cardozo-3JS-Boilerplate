@@ -106,7 +106,7 @@ function applyWASD() {
 }
 
 // ─── Loaders ─────────────────────────────────────────────────────────────────
-//const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
 
 const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
