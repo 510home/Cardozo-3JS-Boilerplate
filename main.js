@@ -116,13 +116,12 @@ const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent
 
 //------ Sphere animated texture  ---------
 
-    const ball = new THREE.IcosahedronGeometry(2,1);
-    const barmaterial = new THREE.MeshStandardMaterial({ color: "#444",
-    transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+    const ball = new THREE.SphereGeometry( 1, 1, 1);
+    const barmaterial = new THREE.MeshStandardMaterial({ color: "#444", transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
 
     const sphere = new THREE.Mesh(ball, barmaterial);
-    scene.add(mesh);
-    
+    scene.add(sphere);
+    sphere..position.set(0, 1, -0.5);
 
 //------------------------------------------------
 // ─── Lighting ────────────────────────────────────────────────────────────────
