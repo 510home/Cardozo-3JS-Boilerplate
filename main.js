@@ -124,7 +124,7 @@ const gltfLoader = new GLTFLoader();
 
 // 3. Create the mesh and add it to your scene
     const sphere = new THREE.Mesh(ball, barmaterial);
-    sphere.position.set(0, 1, 1);
+    sphere.position.set(0, 1.25, -1);
     sphere.castShadow = true;
     sphere.receiveShadow = true;
     scene.add(sphere);
