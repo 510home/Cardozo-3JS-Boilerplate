@@ -107,10 +107,13 @@ function applyWASD() {
 
 // ─── Loaders ─────────────────────────────────────────────────────────────────
 // generic textureLoader below is turned off so we can load the alpha bars on line 113
-//const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader();
+const texture = await loader.loadAsync('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
+const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6", transparent: true, side: THREE.DoubleSide, alphaTest: 0.5 });
+
 const gltfLoader = new GLTFLoader();
 
-const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
+//const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/edit/texture-test/textures/bars.jpg');
 
 
 //------ Sphere animated texture  ---------
@@ -119,7 +122,7 @@ const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent
     const ball = new THREE.SphereGeometry( 1, 24, 24);
 
 // 2. Create a material
-    const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
+//    const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
     barmaterial.alphaMap01 = alphaMap01;
     barmaterial.alphaMap01.magFilter = THREE.NearestFilter;
     barmaterial.alphaMap01.wrapT = THREE.RepeatWrapping;
