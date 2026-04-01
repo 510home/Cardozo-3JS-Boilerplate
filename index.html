@@ -124,12 +124,11 @@ scene.add(gridSmall);
 // ─────────────────────────────────────────────
 //  SPHERE  (r = 1 m, y = 1 + 1/7)
 // ─────────────────────────────────────────────
-const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
+
 
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
-// NOTE: The supplied URL points to a GitHub tree page (not raw content).
-// We use the correct raw URL pattern instead:
+
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
 
 textureLoader.load(
@@ -161,7 +160,7 @@ const sphereMat = new THREE.MeshStandardMaterial({
 
 const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
-sphere.position.set(0, SPHERE_Y, 0);
+sphere.position.set(0, .5, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
@@ -213,7 +212,7 @@ function animate() {
   // Gentle sphere rotation so alpha texture is visible
   sphere.rotation.x = t * 0.25;
   // sphere material alpha animation
-  sphere.sphereMat.alphaTex.offset.y = t * 0.02;
+  sphere.sphereMat.textureLoader.offset.y = t * 0.02;
 
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
