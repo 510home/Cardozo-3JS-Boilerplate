@@ -177,9 +177,9 @@ function makeCube(color, x, y, z) {
 
 // ─── Cubes ───────────────────────────────────────────────────────────────────
 const yellowCube = makeCube(0xffdd00,  5,  0.125,  2);   // yellow  x=5,  z= 2
-const redCube1   = makeCube(0xff2222,  5,  0.125, -2);   // red     x=5,  z=-2
+const redCube1   = makeCube(0xff2222,  5,  0.125, -2);   // blue     x=5,  z=-2
 const orangeCube = makeCube(0xff8800, -5,  0.125,  2);   // orange  x=-5, z= 2
-const redCube2   = makeCube(0xff2222, -5,  0.125, -2);   // red     x=-5, z=-2
+const redCube2   = makeCube(0xff2222, -5,  0.125, -2);   // green     x=-5, z=-2
 
 // ─── Resize Handler ──────────────────────────────────────────────────────────
 window.addEventListener('resize', () => {
@@ -194,7 +194,7 @@ function animate() {
 
   applyWASD();
   orbitControls.update();
-
+  //mesh.barmaterial.alphaMap01.offset.y = time*0.02;
   renderer.render(scene, camera);
 }
 
