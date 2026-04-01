@@ -211,9 +211,9 @@ function animate() {
   const t = clock.getElapsedTime();
 
   // Gentle sphere rotation so alpha texture is visible
-  sphere.rotation.z = t * 0.75;
+  sphere.rotation.x = t * 0.05;
 // sphere texture alpha animation
-const ALPHA_SCROLL_SPEED = 0.4;
+const ALPHA_SCROLL_SPEED = 0.75;
   
     if (sphereMat.alphaMap) {
     sphereMat.alphaMap.offset.y = (t * ALPHA_SCROLL_SPEED) % 1;
