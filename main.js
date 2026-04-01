@@ -138,7 +138,7 @@ const alphaMap01 = new THREE.TextureLoader().load('https://raw.githubusercontent
 
 //------------------------------------------------
 // ─── Lighting ────────────────────────────────────────────────────────────────
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.125);
 scene.add(ambientLight);
 
 const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
