@@ -205,21 +205,24 @@ window.addEventListener('resize', () => {
 //  ANIMATE
 // ─────────────────────────────────────────────
 const clock = new THREE.Clock();
+const offsetLabel = document.getElementById('offsetVal');
 
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
 
-  // Gentle sphere rotation so alpha texture is visible
+  // Gentle sphere rotation
   sphere.rotation.x = t * 0.05;
+  
 // sphere texture alpha animation
+// Scroll speed for the alpha texture Y offset (UV units per second)
 const ALPHA_SCROLL_SPEED = 0.75;
   
     if (sphereMat.alphaMap) {
     sphereMat.alphaMap.offset.y = (t * ALPHA_SCROLL_SPEED) % 1;
     offsetLabel.textContent = sphereMat.alphaMap.offset.y.toFixed(3);
   }
-
+// ────────────────────────────────────────────────────────────────────
   
   // Subtle spotlight orbit for drama
   spot1.position.x = Math.sin(t * 0.18) * 4;
