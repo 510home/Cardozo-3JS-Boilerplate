@@ -139,9 +139,9 @@ textureLoader.load(
     alphaTex.magFilter  = THREE.NearestFilter;
     alphaTex.wrapT      = THREE.RepeatWrapping;
     alphaTex.repeat.y   = 1;
-    alphaTex.needsUpdate = true;
+    alphaTex.needsUpdate = false;
     sphereMat.alphaMap  = alphaTex;
-    sphereMat.needsUpdate = true;
+    sphereMat.needsUpdate = false;
     console.log('Alpha texture loaded ✓');
   },
   undefined,
