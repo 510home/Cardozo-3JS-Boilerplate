@@ -116,7 +116,7 @@ const gltfLoader = new GLTFLoader();
 
 //------ Sphere animated texture  ---------
 */
-    const ball = new THREE.SphereGeometry( 2, 8, 2);
+    const ball = new THREE.SphereGeometry( 4, 12, 2);
     const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
 
     const sphere = new THREE.Mesh(ball, barmaterial);
@@ -145,7 +145,7 @@ scene.add(dirLight);
 // ─── Floor Plane (5m × 3m, lying flat) ───────────────────────────────────────
 const planeGeo = new THREE.PlaneGeometry(5, 3);
 const planeMat = new THREE.MeshStandardMaterial({
-  color: 0x2c2c3e,
+  color: 0x5089b2,
   roughness: 0.8,
   metalness: 0.1,
 });
