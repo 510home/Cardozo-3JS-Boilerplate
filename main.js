@@ -116,9 +116,12 @@ const gltfLoader = new GLTFLoader();
 
 //------ Sphere animated texture  ---------
 */
-    const ball = new THREE.SphereGeometry( 4, 12, 2);
-    const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
+// 1. Create the geometry (radius, widthSegments, heightSegments)
+    const ball = new THREE.SphereGeometry( 2, 12, 12);
 
+// 2. Create a material
+    const barmaterial = new THREE.MeshStandardMaterial({ color: "#ce15f6" });
+// 3. Create the mesh and add it to your scene
     const sphere = new THREE.Mesh(ball, barmaterial);
     sphere.position.set(0, 2, -0.75);
     scene.add(sphere);
@@ -195,6 +198,7 @@ function animate() {
   applyWASD();
   orbitControls.update();
   //mesh.barmaterial.alphaMap01.offset.y = time*0.02;
+  // Rotate the sphere sphere.rotation.y += 0.01; 
   renderer.render(scene, camera);
 }
 
