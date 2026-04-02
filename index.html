@@ -137,7 +137,6 @@ textureLoader.load(
   },
   redspeedtex,
   (redspeed) => {
-    sphereMat.map  = redspeed;
     console.log('red texture loaded ✓');
   }
   
@@ -149,11 +148,12 @@ textureLoader.load(
 
 const sphereMat = new THREE.MeshStandardMaterial({
   color: "#ce15f6",
+  map: redspeed,
   transparent: true,
   side: THREE.DoubleSide,
   alphaTest: 0.5,
-  roughness: 0.3,
-  metalness: 0.15
+  roughness: 0.2,
+  metalness: 0.45
 });
 
 const sphereGeo = new THREE.SphereGeometry( 1, 32, 32);
@@ -187,7 +187,7 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
 
 // Spotlight 2 — cool fill/rim from right rear
-const spot2 = makeSpot(0xeeef77, 1.5,  4, 4.5, -3, Math.PI / 8, 0.45);
+//const spot2 = makeSpot(0xeeef77, 1.5,  4, 4.5, -3, Math.PI / 8, 0.45);
 
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
