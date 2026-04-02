@@ -159,9 +159,9 @@ const planeMat = new THREE.ShaderMaterial({
 });
 
 // ─────────────────────────────────────────────
-//  PLANE  (5 m wide × 8 m deep)
+//  PLANE  (12 m wide × 3 m deep)
 // ─────────────────────────────────────────────
-const planeGeo = new THREE.PlaneGeometry(9, 3);
+const planeGeo = new THREE.PlaneGeometry(12, 3);
 const plane = new THREE.Mesh(planeGeo, planeMat);
 plane.rotation.x = -Math.PI / 2;
 plane.receiveShadow = true;
@@ -188,6 +188,8 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
   return spot;
 }
 
+const spot1 = makeSpot(0xffeedd, 2, -3, 5,   3.5, Math.PI / 7, 0.35);
+const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
 /* 
 // ─────────────────────────────────────────────
 //  SPOTLIGHT 
@@ -245,9 +247,6 @@ return farLight;
   cylinder.add(cylSpot);
   cylinder.add(cylSpot.target);
 
-
-const spot1 = makeSpot(0xffeedd, 2, -3, 5,   3.5, Math.PI / 7, 0.35);
-const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
 */
 
   
