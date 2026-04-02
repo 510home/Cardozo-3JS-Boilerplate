@@ -1,25 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Three.js Boilerplate Scene</title>
-    <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { overflow: hidden; background: #1a1a2e; }
-      #canvas { display: block; width: 100vw; height: 100vh; }
-    </style>
-  </head>
-  <body>
-    <canvas id="canvas"></canvas>
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Torus Knot — Spotlight Scene</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    canvas { display: block; }
+
+    /* HUD overlay */
+    #hud {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    #title {
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.18);
+      font-weight: 400;
+    }
+
+    #subtitle {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(255,200,100,0.25);
+    }
+
+    #info-block {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .info-line {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.12);
+    }
+
+    .info-line span {
+      color: rgba(255,200,80,0.35);
+    }
+
+    /* Bottom bar */
+    #bottom-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hint {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.1);
+      text-transform: uppercase;
+    }
+
+    /* Scanline vignette overlay */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      background:
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%);
+    }
+
+    /* Subtle corner decorations */
+    .corner {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      z-index: 11;
+      pointer-events: none;
+      opacity: 0.2;
+    }
+    .corner.tl { top: 14px; left: 14px; border-top: 1px solid #ff8800; border-left: 1px solid #ff8800; }
+    .corner.tr { top: 14px; right: 14px; border-top: 1px solid #ff8800; border-right: 1px solid #ff8800; }
+    .corner.bl { bottom: 14px; left: 14px; border-bottom: 1px solid #ff8800; border-left: 1px solid #ff8800; }
+    .corner.br { bottom: 14px; right: 14px; border-bottom: 1px solid #ff8800; border-right: 1px solid #ff8800; }
+  </style>
+</head>
+<body>
+
+  <div id="overlay"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <div id="hud">
+    <div id="title-block">
+      <div id="title">Torus Knot — Gradient Shader</div>
+      <div id="subtitle">Three.js / Custom GLSL</div>
+    </div>
+    <div id="info-block">
+      <div class="info-line">SPOTLIGHT <span>X:2 Y:2 Z:-1</span></div>
+      <div class="info-line">GEOMETRY <span>TorusKnot 5,1</span></div>
+      <div class="info-line">MATERIAL <span>Standard / Metal 0.75</span></div>
+    </div>
+  </div>
+
+  <div id="bottom-bar">
+    <div class="hint">Drag to orbit · Scroll to zoom</div>
+    <div class="hint">Color ⟶ Red → Yellow</div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.module.js";
+    import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js";
+
+    // ── Scene setup ──────────────────────────────────────────────────────────
+    let scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050505);
+    scene.fog = new THREE.FogExp2(0x050505, 0.018);
+
+    let camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
+    camera.position.set(0, 10, 20);
+
+    let renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+    document.body.appendChild(renderer.domElement);
+
+    let controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 8;
+    controls.maxDistance = 60;
+
+    // ── Lights ───────────────────────────────────────────────────────────────
+    // Directional fill light
+    let dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.setScalar(10);
+    scene.add(dirLight);
+
+    // Ambient
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+    // Spotlight at user-specified position: x=2, y=2, z=-1
+    let spotlight = new THREE.SpotLight(0xffa040, 3.5, 80, Math.PI / 5, 0.3, 1.5);
+    spotlight.position.set(2, 2, -1);
+    spotlight.target.position.set(0, 0, 0);
+    spotlight.castShadow = true;
+    spotlight.shadow.mapSize.width = 2048;
+    spotlight.shadow.mapSize.height = 2048;
+    spotlight.shadow.camera.near = 0.5;
+    spotlight.shadow.camera.far = 80;
+    scene.add(spotlight);
+    scene.add(spotlight.target);
+
+    // Rim light for depth
+    let rimLight = new THREE.PointLight(0x4488ff, 1.5, 40);
+    rimLight.position.set(-8, 4, 6);
+    scene.add(rimLight);
+
+    // ── Geometry & shader material ────────────────────────────────────────────
+    let g = new THREE.TorusKnotBufferGeometry(5, 1, 128, 16);
+    g.rotateX(-Math.PI * 0.5);
+    g.computeBoundingBox();
+
+    let uniforms = {
+      bbMin:  { value: g.boundingBox.min },
+      bbMax:  { value: g.boundingBox.max },
+      color1: { value: new THREE.Color(0xff0000) },
+      color2: { value: new THREE.Color(0xffff00) }
+    };
+
+    let m = new THREE.MeshStandardMaterial({
+      roughness: 0.25,
+      metalness: 0.75,
+      map: new THREE.TextureLoader().load(
+        "https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg",
+        tex => {
+          tex.wrapS = THREE.RepeatWrapping;
+          tex.wrapT = THREE.RepeatWrapping;
+          tex.repeat.set(16, 1);
         }
+      ),
+      onBeforeCompile: shader => {
+        shader.uniforms.bbMin  = uniforms.bbMin;
+        shader.uniforms.bbMax  = uniforms.bbMax;
+        shader.uniforms.color1 = uniforms.color1;
+        shader.uniforms.color2 = uniforms.color2;
+
+        shader.vertexShader = `
+          varying vec3 vPos;
+          ${shader.vertexShader}
+        `.replace(
+          `#include <begin_vertex>`,
+          `#include <begin_vertex>
+           vPos = transformed;`
+        );
+
+        shader.fragmentShader = `
+          uniform vec3 bbMin;
+          uniform vec3 bbMax;
+          uniform vec3 color1;
+          uniform vec3 color2;
+          varying vec3 vPos;
+          ${shader.fragmentShader}
+        `.replace(
+          `vec4 diffuseColor = vec4( diffuse, opacity );`,
+          `float f = clamp((vPos.z - bbMin.z) / (bbMax.z - bbMin.z), 0., 1.);
+           vec3 col = mix(color1, color2, f);
+           vec4 diffuseColor = vec4( col, opacity );`
+        );
       }
-    </script>
-    <script type="module" src="main.js"></script>
-  </body>
+    });
+
+    let o = new THREE.Mesh(g, m);
+    o.castShadow = true;
+    o.receiveShadow = true;
+    scene.add(o);
+
+    // ── Ground plane (subtle) ─────────────────────────────────────────────────
+    let groundGeo = new THREE.PlaneGeometry(80, 80);
+    let groundMat = new THREE.MeshStandardMaterial({
+      color: 0x111111,
+      roughness: 0.9,
+      metalness: 0.1
+    });
+    let ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -7;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // ── Particle field ────────────────────────────────────────────────────────
+    const particleCount = 600;
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3 + 0] = (Math.random() - 0.5) * 80;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 80;
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0x443322, size: 0.12, sizeAttenuation: true });
+    scene.add(new THREE.Points(pGeo, pMat));
+
+    // ── Resize handler ────────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    // ── Render loop ───────────────────────────────────────────────────────────
+    let t = 0;
+    renderer.setAnimationLoop(() => {
+      t += 0.005;
+      o.rotation.y = t * 0.4;
+
+      // Gently pulse the spotlight intensity
+      spotlight.intensity = 3.5 + Math.sin(t * 1.2) * 0.8;
+
+      controls.update();
+      renderer.render(scene, camera);
+    });
+  </script>
+</body>
 </html>
