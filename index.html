@@ -162,6 +162,32 @@ plane.receiveShadow = true;
 scene.add(plane);
 
 // ─────────────────────────────────────────────
+//  SPOTLIGHTS  (no ambient — only 2 spots)
+// ─────────────────────────────────────────────
+function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
+  const spot = new THREE.SpotLight(color, intensity);
+  spot.position.set(posX, posY, posZ);
+  spot.angle     = angle;
+  spot.penumbra  = penumbra;
+  spot.decay     = 1.8;
+  spot.distance  = 20;
+  spot.castShadow = true;
+  spot.shadow.mapSize.set(1024, 1024);
+  spot.shadow.camera.near = 0.5;
+  spot.shadow.camera.far  = 20;
+  spot.target.position.set(0, SPHERE_Y, 0);
+  scene.add(spot);
+  scene.add(spot.target);
+  return spot;
+}
+
+// Spotlight 1 — warm key light from upper-left front
+const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
+
+// Spotlight 2 — cool fill/rim from right rear
+const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
+    
+// ─────────────────────────────────────────────
 //  RESIZE HANDLER
 // ─────────────────────────────────────────────
 window.addEventListener('resize', () => {
