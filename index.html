@@ -9,42 +9,11 @@
     body { background: #0a0a0f; overflow: hidden; font-family: 'Courier New', monospace; }
     canvas { display: block; }
 
-    #ui {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      color: #ce15f6;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      line-height: 1.8;
-      pointer-events: none;
-    }
-    #ui .label { color: #00000022; }
-    #ui .val   { color: #44dd0022; }
 
-    #corner {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      color: #ffffff22;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
-<!--
-  <div id="ui">
-  <div><span class="label">Plane:    </span><span class="val">5 m × 8 m</span></div>
-  <div><span class="label">Lighting: </span><span class="val">2× Spotlights (no ambient)</span></div>
-  <div><span class="label">Material: </span><span class="val">PlaneMat — procedural stripes</span></div>
-  <div><span class="label">Y offset: </span><span class="val" id="offsetVal">0.000</span></div>
-</div>
--->
-<!-- <div id="corner">Orbit · Scroll to zoom · Right-drag to pan</div> --> 
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -190,7 +159,7 @@ const planeMat = new THREE.ShaderMaterial({
 });
 
 // ─────────────────────────────────────────────
-//  PLANE  (9 m wide × 3 m deep)
+//  PLANE  (5 m wide × 8 m deep)
 // ─────────────────────────────────────────────
 const planeGeo = new THREE.PlaneGeometry(9, 3);
 const plane = new THREE.Mesh(planeGeo, planeMat);
@@ -198,16 +167,6 @@ plane.rotation.x = -Math.PI / 2;
 plane.receiveShadow = true;
 scene.add(plane);
 
-// ─────────────────────────────────────────────
-//  GRID HELPERS
-// ─────────────────────────────────────────────
-  /*
-const grid = new THREE.GridHelper(8, 8, 0xffffff, 0xffffff);
-grid.position.y = 0.001;
-grid.material.opacity = 0.18;
-grid.material.transparent = true;
-scene.add(grid);
-*/
 
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
@@ -245,7 +204,6 @@ window.addEventListener('resize', () => {
 //  ANIMATE
 // ─────────────────────────────────────────────
 const clock = new THREE.Clock();
-const offsetLabel = document.getElementById('offsetVal');
 
 function animate() {
   requestAnimationFrame(animate);
@@ -253,7 +211,6 @@ function animate() {
 
   const yOffset = (t * 4.0) % 1.0;
   planeMat.uniforms.uOffset.value = yOffset;
-  offsetLabel.textContent = yOffset.toFixed(3);
 
   spot1.position.x = Math.sin(t * 0.18) * 4;
   spot1.position.z = Math.cos(t * 0.18) * 4;
