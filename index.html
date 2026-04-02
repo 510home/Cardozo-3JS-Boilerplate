@@ -17,6 +17,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <script>
 // ─────────────────────────────────────────────
@@ -190,65 +191,54 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 
 const spot1 = makeSpot(0xffeedd, 2, -3, 5,   3.5, Math.PI / 7, 0.35);
 const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
-/* 
-// ─────────────────────────────────────────────
-//  SPOTLIGHT 
-// ─────────────────────────────────────────────
 
- 
-const farLight = new THREE.SpotLight( 0x88ffff, 3, 150, 15, 0.65);
-farLight.position.set( -2, 8, 2);
-//farLight.map = new THREE.TextureLoader().load( url );
-farLight.castShadow = true;
-farLight.shadow.mapSize.width = 1024;
-farLight.shadow.mapSize.height = 1024;
-farLight.target.position.set(0.25, 0, 0);
-//farLight.shadow.camera.near = 5;
-//farLight.shadow.camera.far = 100;
-//farLight.shadow.camera.fov = 30;
-scene.add(farLight);
-scene.add(farLight.target);
-return farLight;
-─────────────────────────────────────────────
- ── NightDrive old spotlights DO NOT WORK WITH SHADER── 
-  function makeSpot(color, intensity, x, y, z, tx, ty, tz) {
-    const s = new THREE.SpotLight(color, intensity);
-    s.position.set(x, y, z);
-    s.angle = Math.PI / 7;
-    s.penumbra = 0.35;
-    s.decay = 1.8;
-    s.distance = 12;
-    s.castShadow = true;
-    s.shadow.mapSize.width = s.shadow.mapSize.height = 1024;
-    s.shadow.camera.near = 0.5;
-    s.shadow.camera.far  = 14;
-    s.target.position.set(tx, ty, tz);
-    scene.add(s);
-    scene.add(s.target);
-    return s;
-  }
+  /* ── GLTF: Lancer ── */
+  const gltfLoader = new THREE.GLTFLoader();
+  gltfLoader.load(
+    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled.glb',
+    (gltf) => {
+      const model = gltf.scene;
 
-  const spot1 = makeSpot(0xfff4d0, .5,  1, 5,  3, 0, 0, 0);
-  spot1.castShadow = false;
-  makeSpot(0x8ba9f3, 6, 5, 3, 0, -.5, .125, 0);
+      // Compute bounding box BEFORE any transforms
+      const box    = new THREE.Box3().setFromObject(model);
+      const size   = box.getSize(new THREE.Vector3());
+      const centre = box.getCenter(new THREE.Vector3());
 
- // cylinder spotlight (parented) 
-  const cylSpot = new THREE.SpotLight(0xffffff, 4.0);
-  cylSpot.position.set(0, 0.775, 1);
-  cylSpot.angle    = 55 * (Math.PI / 180);
-  cylSpot.penumbra = 0.75;
-  cylSpot.decay    = 1.5;
-  cylSpot.distance = 8;
-  cylSpot.castShadow = true;
-  cylSpot.shadow.mapSize.width = cylSpot.shadow.mapSize.height = 1024;
-  cylSpot.shadow.camera.near = 0.1;
-  cylSpot.shadow.camera.far  = 10;
-  cylSpot.target.position.set(0, -0.775, 0.775 * Math.tan(45 * Math.PI / 180));
-  cylinder.add(cylSpot);
-  cylinder.add(cylSpot.target);
+      // Scale to fit within 2m
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale  = maxDim > 0 ? (2 / maxDim) : 1;
+      model.scale.setScalar(scale);
 
-*/
+      // Centre at origin, then lift to sit on the plane
+      model.position.set(
+        -centre.x * scale,
+        -centre.y * scale + (size.y * scale / 2.125),
+        -centre.z * scale -.2
+      );
+      
+//    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
+     model.rotation.x = -Math.PI / 2;
+   // model.rotation.z = Math.PI / 2;
+   
 
+      model.traverse(o => {
+        if (o.isMesh) {
+          o.castShadow    = true;
+          o.receiveShadow = true;
+          // Ensure materials are double-sided in case normals are flipped
+      //    if (o.material) o.material.side = THREE.DoubleSide;
+        }
+      });
+
+      scene.add(model);
+      lancer = model;
+      console.log('Flying patroller loaded. Scale:', scale, 'Size:', size, 'Position:', model.position);
+    },
+    (xhr) => {
+      if (xhr.total) console.log('GLTF loading:', Math.round(xhr.loaded / xhr.total * 100) + '%');
+    },
+    (err) => console.error('GLTF load error:', err)
+  );
   
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
