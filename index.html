@@ -124,13 +124,10 @@ scene.add(gridSmall);
 // ─────────────────────────────────────────────
 //  SPHERE  (r = 1 m, y = 1 + 1/7)
 // ─────────────────────────────────────────────
-const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
 
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
 //  textureLoader.colorSpace = THREE.SRGBColorSpace
-// NOTE: The supplied URL points to a GitHub tree page (not raw content).
-// We use the correct raw URL pattern instead:
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
 const redspeed    = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
   
@@ -144,6 +141,7 @@ textureLoader.load(
     alphaMap.repeat.y   = 1;
     alphaTex.needsUpdate = true;
     sphereMat.alphaMap  = alphaTex;
+    sphereMat.map = redspeed;
     sphereMat.needsUpdate = true;
     console.log('Alpha texture loaded ✓');
   },
