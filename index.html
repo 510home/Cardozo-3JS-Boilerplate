@@ -174,14 +174,17 @@ scene.add(plane);
  
 const farLight = new THREE.SpotLight( 0x88ffff, 3, 150, 15, 0.65);
 farLight.position.set( -2, 8, 2);
-//spotLight.map = new THREE.TextureLoader().load( url );
+//farLight.map = new THREE.TextureLoader().load( url );
 farLight.castShadow = true;
 farLight.shadow.mapSize.width = 1024;
 farLight.shadow.mapSize.height = 1024;
+farLight.target.position.set(0.25, 0, 0);
 //farLight.shadow.camera.near = 5;
 //farLight.shadow.camera.far = 100;
 //farLight.shadow.camera.fov = 30;
- scene.add(farLight);
+scene.add(farLight);
+scene.add(farLight.target);
+return farLight;
    /* 
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
