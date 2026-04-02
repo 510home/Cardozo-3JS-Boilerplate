@@ -198,6 +198,7 @@ const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
     'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled.glb',
     (gltf) => {
       const model = gltf.scene;
+//    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
 
       // Compute bounding box BEFORE any transforms
       const box    = new THREE.Box3().setFromObject(model);
@@ -217,8 +218,8 @@ const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
       );
       
 //    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
-     model.rotation.x = -Math.PI / 2;
-    model.rotation.z = Math.PI / 2;
+//     model.rotation.x = -Math.PI / 2;
+ //   model.rotation.z = Math.PI / 2;
    
 
       model.traverse(o => {
