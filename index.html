@@ -114,22 +114,14 @@ grid.material.opacity = 0.18;
 grid.material.transparent = true;
 scene.add(grid);
 
-// A second, finer grid just over the 5m axis
-const gridSmall = new THREE.GridHelper(5, 5, 0xce15f6, 0xce15f6);
-gridSmall.position.y = 0.002;
-gridSmall.material.opacity = 0.22;
-gridSmall.material.transparent = true;
-scene.add(gridSmall);
-
 // ─────────────────────────────────────────────
 //  SPHERE  (r = 1 m, y = 1 + 1/7)
 // ─────────────────────────────────────────────
 
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
-// NOTE: The supplied URL points to a GitHub tree page (not raw content).
-// We use the correct raw URL pattern instead:
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
+  // const redspeed = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
 
 textureLoader.load(
   alphaTexURL,
@@ -189,7 +181,7 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 const spot1 = makeSpot(0xffeedd, 3.5, -3, 5, 3.5, Math.PI / 7, 0.35);
 
 // Spotlight 2 — cool fill/rim from right rear
-const spot2 = makeSpot(0xeeef77, 2.5,  4, 4.5, -3, Math.PI / 8, 0.45);
+const spot2 = makeSpot(0xeeef77, 1.5,  4, 4.5, -3, Math.PI / 8, 0.45);
 
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
