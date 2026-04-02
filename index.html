@@ -121,7 +121,7 @@ scene.add(grid);
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
-  // const redspeed = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
+const redspeedtex = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
 
 textureLoader.load(
   alphaTexURL,
@@ -135,6 +135,12 @@ textureLoader.load(
     sphereMat.needsUpdate = true;
     console.log('Alpha texture loaded ✓');
   },
+  redspeedtex,
+  (redspeed) => {
+    sphereMat.map  = redspeed;
+    console.log('red texture loaded ✓');
+  }
+  
   undefined,
   (err) => {
     console.warn('Alpha texture failed to load (CORS / 404). Sphere will render without alpha map.', err);
