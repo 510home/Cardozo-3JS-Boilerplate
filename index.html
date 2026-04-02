@@ -128,7 +128,7 @@ const SPHERE_Y = 1 + 1/7;   // radius (1) + gap (1/7)
 
 // Load alpha texture
 const textureLoader = new THREE.TextureLoader();
-  textureLoader.colorSpace = THREE.SRGBColorSpace
+//  textureLoader.colorSpace = THREE.SRGBColorSpace
 // NOTE: The supplied URL points to a GitHub tree page (not raw content).
 // We use the correct raw URL pattern instead:
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
@@ -155,12 +155,12 @@ textureLoader.load(
 
 const sphereMat = new THREE.MeshStandardMaterial({
 //  map:  ,
- color: "#ce15f6",
+ color: "#345587",
  transparent: true,
   side: THREE.DoubleSide,
   alphaTest: 0.5,
-  roughness: 0.3,
-  metalness: 0.15
+  roughness: 0.2,
+  metalness: 0.45
 });
 
 const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
