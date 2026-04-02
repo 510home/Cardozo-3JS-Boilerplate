@@ -76,8 +76,8 @@ const fragmentShader = /* glsl */`
   varying vec3  vNormal;
   varying vec3  vViewPos;
 
-  const vec3  COLOR_A      = vec3(0.353, 0.337, 0.275);  // #5a5646
-  const vec3  COLOR_B      = vec3(0.227, 0.220, 0.216);  // #3a3837
+  const vec3  COLOR_A      = vec3(0.353, 0.337, 0.275);  // #57594f
+  const vec3  COLOR_B      = vec3(0.227, 0.220, 0.216);  // #242931
   const float STRIPE_COUNT = 1.5;
 
   // ── Classic 2-D Perlin noise ──────────────────────────────────────────
@@ -159,13 +159,13 @@ const planeMat = new THREE.ShaderMaterial({
 });
 
 // ─────────────────────────────────────────────
-//  PLANE  (5 m wide × 8 m deep)
+//  PLANE  (9 m wide × 3 m deep)
 // ─────────────────────────────────────────────
 const planeGeo = new THREE.PlaneGeometry(9, 3);
-const plane = new THREE.Mesh(planeGeo, planeMat);
+const procplane = new THREE.Mesh(planeGeo, planeMat);
 plane.rotation.x = -Math.PI / 2;
 plane.receiveShadow = true;
-scene.add(plane);
+scene.add(procplane);
 
 
 // ─────────────────────────────────────────────
@@ -189,7 +189,7 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 }
 
 const spot1 = makeSpot(0xffeedd, 3.5, -3, 5,   3.5, Math.PI / 7, 0.35);
-const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3,  Math.PI / 8, 0.45);
+//const spot2 = makeSpot(0xaaddff, 2.5,  4, 4.5, -3,  Math.PI / 8, 0.45);
 
 // ─────────────────────────────────────────────
 //  RESIZE HANDLER
