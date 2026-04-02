@@ -150,22 +150,20 @@ textureLoader.load(
 );
 
 const sphereMat = new THREE.MeshStandardMaterial({
-//  map:  ,
- color: "#345587",
- transparent: true,
+  color: "#ce15f6",
+  transparent: true,
   side: THREE.DoubleSide,
   alphaTest: 0.5,
-  roughness: 0.2,
-  metalness: 0.45
+  roughness: 0.3,
+  metalness: 0.15
 });
 
 const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
-sphere.position.set(0, 1, 0);
+sphere.position.set(0, SPHERE_Y, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
-//return sphere;
 
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
