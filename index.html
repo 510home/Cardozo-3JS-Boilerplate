@@ -132,7 +132,7 @@ const textureLoader = new THREE.TextureLoader();
 // NOTE: The supplied URL points to a GitHub tree page (not raw content).
 // We use the correct raw URL pattern instead:
 const alphaTexURL = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/bars.jpg';
-const redspeed = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
+const redspeed    = 'https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg';
   
 
 textureLoader.load(
@@ -154,9 +154,9 @@ textureLoader.load(
 );
 
 const sphereMat = new THREE.MeshStandardMaterial({
-  map: redspeed,
-  color: "#ce15f6",
-  transparent: true,
+  map: alphaTexURL,
+ // color: "#ce15f6",
+//  transparent: true,
   side: THREE.DoubleSide,
   alphaTest: 0.5,
   roughness: 0.3,
@@ -165,7 +165,7 @@ const sphereMat = new THREE.MeshStandardMaterial({
 
 const sphereGeo = new THREE.SphereGeometry(1, 64, 64);
 const sphere    = new THREE.Mesh(sphereGeo, sphereMat);
-sphere.position.set(0, 2, 0);
+sphere.position.set(0, 1, 0);
 sphere.castShadow    = true;
 sphere.receiveShadow = false;
 scene.add(sphere);
