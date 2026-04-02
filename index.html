@@ -37,7 +37,7 @@
   </style>
 </head>
 <body>
-
+/*
 <div id="ui">
   <div><span class="label">Plane:    </span><span class="val">5 m × 8 m</span></div>
   <div><span class="label">Lighting: </span><span class="val">2× Spotlights (no ambient)</span></div>
@@ -46,7 +46,7 @@
 </div>
 
 <div id="corner">Orbit · Scroll to zoom · Right-drag to pan</div>
-
+*/
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
@@ -202,12 +202,13 @@ scene.add(plane);
 // ─────────────────────────────────────────────
 //  GRID HELPERS
 // ─────────────────────────────────────────────
+  /*
 const grid = new THREE.GridHelper(8, 8, 0xffffff, 0xffffff);
 grid.position.y = 0.001;
 grid.material.opacity = 0.18;
 grid.material.transparent = true;
 scene.add(grid);
-
+*/
 
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
