@@ -195,11 +195,10 @@ const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
   /* ── GLTF: Lancer ── */
   const gltfLoader = new THREE.GLTFLoader();
   gltfLoader.load(
-    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled_nowheels.glb',
+//    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled_nowheels.glb',
     'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
     (gltf) => {
       const model = gltf.scene;
-//    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
 
       // Compute bounding box BEFORE any transforms
       const box    = new THREE.Box3().setFromObject(model);
