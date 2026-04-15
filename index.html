@@ -209,14 +209,14 @@ scene.add(tire02);
 // -─────────────────────────────
 // Add wheels model
 // ─────────────────────────────
-  /* ── GLTF: Lancer ── */
+  /* ── GLTF: Wheels ── */
   const gltfLoader = new THREE.GLTFLoader();
   gltfLoader.load(
     'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
     (gltf) => {
       const model = gltf.scene;
       
-    model.scale.set(1, 1, 1);
+    model.scale.set(0.02, 0.02, 0.02);
 //     model.rotation.x = -Math.PI / 2;
  //   model.rotation.z = Math.PI / 2;
    
