@@ -35,7 +35,7 @@ document.body.appendChild(renderer.domElement);
 //  SCENE & CAMERA
 // ─────────────────────────────────────────────
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a0a0f);
+scene.background = new THREE.Color(0x1f2e5c);
 
 const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.01, 200);
 camera.position.set(4, 3.5, 6);
@@ -213,25 +213,8 @@ scene.add(tire02);
     'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
     (gltf) => {
       const model = gltf.scene;
-
-      // Compute bounding box BEFORE any transforms
-      const box    = new THREE.Box3().setFromObject(model);
-      const size   = box.getSize(new THREE.Vector3());
-      const centre = box.getCenter(new THREE.Vector3());
-
-      // Scale to fit within 2m
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale  = maxDim > 0 ? (2 / maxDim) : 1;
-      model.scale.setScalar(scale);
-
-      // Centre at origin, then lift to sit on the plane
-      model.position.set(
-        -centre.x * scale,
-        -centre.y * scale + (size.y * scale / 2),
-        -centre.z * scale
-      );
       
-//    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
+    model.scale.set(0.2,0.2, 0.2);
 //     model.rotation.x = -Math.PI / 2;
  //   model.rotation.z = Math.PI / 2;
    
