@@ -204,6 +204,57 @@ tire02.castShadow    = true;
 tire02.receiveShadow = true;
 scene.add(tire02);
 
+// -─────────────────────────────
+// Add wheels model
+// ─────────────────────────────
+  /* ── GLTF: Lancer ── */
+  const gltfLoader = new THREE.GLTFLoader();
+  gltfLoader.load(
+    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
+    (gltf) => {
+      const model = gltf.scene;
+
+      // Compute bounding box BEFORE any transforms
+      const box    = new THREE.Box3().setFromObject(model);
+      const size   = box.getSize(new THREE.Vector3());
+      const centre = box.getCenter(new THREE.Vector3());
+
+      // Scale to fit within 2m
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale  = maxDim > 0 ? (2 / maxDim) : 1;
+      model.scale.setScalar(scale);
+
+      // Centre at origin, then lift to sit on the plane
+      model.position.set(
+        -centre.x * scale,
+        -centre.y * scale + (size.y * scale / 2),
+        -centre.z * scale
+      );
+      
+//    model.rotation.set(new THREE.Vector3((Math.PI / 2), 0, 0));
+//     model.rotation.x = -Math.PI / 2;
+ //   model.rotation.z = Math.PI / 2;
+   
+
+      model.traverse(o => {
+        if (o.isMesh) {
+          o.castShadow    = true;
+          o.receiveShadow = true;
+          // Ensure materials are double-sided in case normals are flipped
+      //    if (o.material) o.material.side = THREE.DoubleSide;
+        }
+      });
+
+      scene.add(model);
+      lancer = model;
+      console.log('Lancer loaded. Scale:', scale, 'Size:', size, 'Position:', model.position);
+    },
+    (xhr) => {
+      if (xhr.total) console.log('GLTF loading:', Math.round(xhr.loaded / xhr.total * 100) + '%');
+    },
+    (err) => console.error('GLTF load error:', err)
+  );
+  
 // ─────────────────────────────────────────────
 //  SPOTLIGHTS  (no ambient — only 2 spots)
 // ─────────────────────────────────────────────
