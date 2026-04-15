@@ -215,7 +215,7 @@ scene.add(tire02);
     'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
     (gltf) => {
       const model = gltf.scene;
-      
+/*      
     model.scale.set(0.02, 0.02, 0.02);
 //     model.rotation.x = -Math.PI / 2;
  //   model.rotation.z = Math.PI / 2;
@@ -230,7 +230,8 @@ scene.add(tire02);
         }
       });
 
-      scene.add(model);
+  */
+    scene.add(model);
       lancer = model;
       console.log('Lancer loaded. Scale:', scale, 'Size:', size, 'Position:', model.position);
     },
