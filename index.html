@@ -167,7 +167,7 @@
     scene.add(dirLight);
 
     // Ambient
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    scene.add(new THREE.AmbientLight(0xffffff, 0.86));
 
     // Spotlight at user-specified position: x=2, y=2, z=-1
     let spotlight = new THREE.SpotLight(0xffa040, 3.5, 80, Math.PI / 5, 0.3, 1.5);
@@ -206,7 +206,7 @@
         tex => {
           tex.wrapS = THREE.RepeatWrapping;
           tex.wrapT = THREE.RepeatWrapping;
-          tex.repeat.set(16, 1);
+          tex.repeat.set(4, 4);
         }
       ),
       onBeforeCompile: shader => {
