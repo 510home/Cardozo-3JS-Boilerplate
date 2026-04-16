@@ -192,12 +192,12 @@ function makeSpot(color, intensity, posX, posY, posZ, angle, penumbra) {
 const spot1 = makeSpot(0xffeedd, 2, -3, 5,   3.5, Math.PI / 7, 0.35);
 const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
 
-//    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled_nowheels.glb' 'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_wheels.glb'
+//    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled_nowheels.glb' 'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/wheels_1x.glb'
   
   /* ── GLTF: Lancer ── */
   const gltfLoader = new THREE.GLTFLoader();
   gltfLoader.load(
-    'https://raw.githubusercontent.com/510home/iso-night-drive/master/models/lancer_green_scaled_nowheels.glb'
+    'models/lancer_green_scaled_nowheels.glb'
     (gltf) => {
       const model = gltf.scene;
 
@@ -262,7 +262,6 @@ function animate() {
 
   const yOffset = (t * 4.0) % 1.0;
   planeMat.uniforms.uOffset.value = yOffset;
-
   spot1.position.x = Math.sin(t * 0.18) * 4;
   spot1.position.z = Math.cos(t * 0.18) * 4;
 
