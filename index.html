@@ -96,16 +96,16 @@
     /* Subtle corner decorations */
     .corner {
       position: fixed;
-      width: 40px;
-      height: 40px;
+      width: 90px;
+      height: 90px;
       z-index: 11;
       pointer-events: none;
-      opacity: 0.2;
+      opacity: 0.6;
     }
-    .corner.tl { top: 14px; left: 14px; border-top: 1px solid #ff8800; border-left: 1px solid #ff8800; }
-    .corner.tr { top: 14px; right: 14px; border-top: 1px solid #ff8800; border-right: 1px solid #ff8800; }
-    .corner.bl { bottom: 14px; left: 14px; border-bottom: 1px solid #ff8800; border-left: 1px solid #ff8800; }
-    .corner.br { bottom: 14px; right: 14px; border-bottom: 1px solid #ff8800; border-right: 1px solid #ff8800; }
+    .corner.tl { top: 14px; left: 14px; border-top: 1px solid #ff8844; border-left: 1px solid #ff8800; }
+    .corner.tr { top: 14px; right: 14px; border-top: 1px solid #ff8844; border-right: 1px solid #ff8800; }
+    .corner.bl { bottom: 14px; left: 14px; border-bottom: 1px solid #ff8844; border-left: 1px solid #ff8800; }
+    .corner.br { bottom: 14px; right: 14px; border-bottom: 1px solid #ff8844; border-right: 1px solid #ff8800; }
   </style>
 </head>
 <body>
@@ -140,7 +140,7 @@
     // ── Scene setup ──────────────────────────────────────────────────────────
     let scene = new THREE.Scene();
     scene.background = new THREE.Color(0x050505);
-    scene.fog = new THREE.FogExp2(0x050505, 0.018);
+    scene.fog = new THREE.FogExp2(0x050505, 0.1);
 
     let camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
     camera.position.set(0, 10, 20);
@@ -167,7 +167,7 @@
     scene.add(dirLight);
 
     // Ambient
-    scene.add(new THREE.AmbientLight(0xffffff, 0.86));
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
 
     // Spotlight at user-specified position: x=2, y=2, z=-1
     let spotlight = new THREE.SpotLight(0xffa040, 3.5, 80, Math.PI / 5, 0.3, 1.5);
@@ -186,8 +186,8 @@
     rimLight.position.set(-8, 4, 6);
     scene.add(rimLight);
 
-    // ── Geometry & shader material ────────────────────────────────────────────
-    let g = new THREE.TorusKnotBufferGeometry(3, 1, 48, 12, 2, 1);
+    // ── GEOMETRY TORUS & shader material ────────────────────────────────────────────
+    let g = new THREE.TorusKnotBufferGeometry(2, 1, 48, 12, 2, 1);
     g.rotateX(-Math.PI * 0.5);
     g.computeBoundingBox();
 
