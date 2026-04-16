@@ -199,7 +199,7 @@
     };
 
     let m = new THREE.MeshStandardMaterial({
-      roughness: 0.25,
+      roughness: 0.2,
       metalness: 0.75,
       map: new THREE.TextureLoader().load(
         "https://raw.githubusercontent.com/510home/Cardozo-3JS-Boilerplate/texture-test/textures/redspeed.jpg",
@@ -247,12 +247,12 @@
 
     // ── Ground plane (subtle) ─────────────────────────────────────────────────
     let groundGeo = new THREE.PlaneGeometry(80, 80);
-    let groundMat = new THREE.MeshStandardMaterial({
-      color: 0x111111,
-      roughness: 0.9,
-      metalness: 0.1
-    });
-    let ground = new THREE.Mesh(groundGeo, groundMat);
+ //   let groundMat = new THREE.MeshStandardMaterial({
+ //     color: 0x111111,
+//      roughness: 0.9,
+//      metalness: 0.1
+//    });
+    let ground = new THREE.Mesh(groundGeo, m);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -7;
     ground.receiveShadow = true;
