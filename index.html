@@ -196,8 +196,7 @@ const spot2 = makeSpot(0xaaddff, 1,  4, 4.5, -3,  Math.PI / 8, 0.45);
   
   /* ── GLTF: Lancer ── */
   const gltfLoader = new THREE.GLTFLoader();
-  gltfLoader.load(
-    'models/lancer_green_scaled_nowheels.glb',  (gltf) => {
+  gltfLoader.load('models/lancer_green_scaled_nowheels.glb',  (gltf) => {
    
       const model = gltf.scene;
 
